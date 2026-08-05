@@ -1,5 +1,5 @@
 // Service Worker - 像素森系工作台 v2
-const CACHE_NAME = 'workbench-v2'
+const CACHE_NAME = 'workbench-v3'
 
 // 安装 - 跳过预缓存，避免首次缓存陈旧文件
 self.addEventListener('install', () => {
@@ -92,7 +92,7 @@ self.addEventListener('notificationclick', (event) => {
       for (const client of clientList) {
         if ('focus' in client) return client.focus()
       }
-      if (clients.openWindow) return clients.openWindow('/')
+      if (clients.openWindow) return clients.openWindow('/personal-workbench/')
     })
   )
 })
