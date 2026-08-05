@@ -29,6 +29,15 @@ export interface Customer {
   created_at: string;
 }
 
+export interface Docket {
+  id: string;
+  customerId: string;
+  title: string;
+  content: string;
+  date: string;
+  created_at: string;
+}
+
 export interface Reminder {
   id: string;
   type: 'birthday' | 'contact' | 'custom';
@@ -45,7 +54,7 @@ export interface Reminder {
 
 export interface Inspiration {
   id: string;
-  category: 'book' | 'quote' | 'movie' | 'knowledge' | 'finance' | 'excerpt';
+  category: 'book' | 'quote' | 'movie' | 'knowledge' | 'excerpt';
   title: string;
   content: string;
   source: string;
@@ -93,8 +102,8 @@ export interface ChildInfo {
 export interface GrowthMetric {
   id: string;
   date: string;
-  height: number; // cm
-  weight: number; // kg
+  height: number;
+  weight: number;
   note: string;
   created_at: string;
 }
@@ -179,7 +188,6 @@ export interface Account {
   resetDate: string;
 }
 
-// ===== 五账户体系 =====
 export interface FiveAccounts {
   daily: { balance: number; monthlyLimit: number; resetDate: string };
   fixed: { balance: number };
