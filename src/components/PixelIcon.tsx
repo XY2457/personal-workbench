@@ -86,9 +86,9 @@ export function PixelNoteIcon({ size = 24, color = '#7DBF8A' }: IconProps) {
       ${px(5,4,8,8,w)}
       ${px(6,5,1,1,c)}${px(8,5,1,1,c)}${px(10,5,1,1,c)}
       ${px(6,6,6,1,d)}${px(6,8,6,1,d)}${px(6,10,4,1,d)}
-      ${px(3,5,1,1,r('#D4A03A'))}${px(3,7,1,1,r('#D4A03A'))}${px(3,9,1,1,r('#D4A03A'))}
+      ${px(3,5,1,1,'#D4A03A')}${px(3,7,1,1,'#D4A03A')}${px(3,9,1,1,'#D4A03A')}
     </svg>
-  `.replace(/r\('([^']+)'\)/g, "$1")
+  `
   return <span dangerouslySetInnerHTML={{ __html: svg }} />
 }
 
