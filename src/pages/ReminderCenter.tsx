@@ -16,6 +16,7 @@ export default function ReminderCenter() {
   const [showForm, setShowForm] = useState(false)
   const [tab, setTab] = useState<'pending' | 'upcoming' | 'history'>('pending')
   const [showCalendar, setShowCalendar] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState({
     type: 'birthday' as Reminder['type'],
     title: '', date: todayStr(), time: '09:00',
@@ -24,7 +25,6 @@ export default function ReminderCenter() {
 
   const load = async () => {
     const data = await dbGet<Reminder[]>('reminders') as Reminder[]
-    // 计算状态
     const today = new Date()
     const updated = data.map(r => {
       const d = new Date(r.date)
@@ -42,12 +42,26 @@ export default function ReminderCenter() {
 
   const handleSave = async () => {
     if (!form.title || !form.date) return
-    await dbInsert('reminders', {
-      id: uuid(), ...form, status: 'pending', created_at: now()
-    })
+    if (editingId) {
+      await dbUpdate('reminders', editingId, { ...form, status: 'pending' })
+    } else {
+      await dbInsert('reminders', {
+        id: uuid(), ...form, status: 'pending', created_at: now()
+      })
+    }
     setShowForm(false)
+    setEditingId(null)
     setForm({ type: 'birthday', title: '', date: todayStr(), time: '09:00', calendar: 'solar', advanceDays: 1, repeat: 'yearly', notes: '' })
     load()
+  }
+
+  const handleEdit = (r: Reminder) => {
+    setEditingId(r.id)
+    setForm({
+      type: r.type, title: r.title, date: r.date, time: r.time,
+      calendar: (r as any).calendar || 'solar', advanceDays: r.advanceDays, repeat: r.repeat, notes: r.notes || ''
+    })
+    setShowForm(true)
   }
 
   const handleAction = async (r: Reminder, action: 'done' | 'delete') => {
@@ -69,7 +83,6 @@ export default function ReminderCenter() {
   const upcomingCount = reminders.filter(r => r.status === 'upcoming').length
   const doneCount = reminders.filter(r => r.status === 'done').length
 
-  // 日历视图数据
   const currentMonth = new Date()
   const calendarDays = (() => {
     const year = currentMonth.getFullYear()
@@ -99,11 +112,10 @@ export default function ReminderCenter() {
         <div className="flex gap-2">
           <button className="btn btn-outline" onClick={testNotification}>测试通知</button>
           <button className="btn btn-outline" onClick={() => setShowCalendar(!showCalendar)}>{showCalendar ? '列表视图' : '日历视图'}</button>
-          <button className="btn btn-highlight" onClick={() => setShowForm(true)}>+ 新建提醒</button>
+          <button className="btn btn-highlight" onClick={() => { setEditingId(null); setForm({ type: 'birthday', title: '', date: todayStr(), time: '09:00', calendar: 'solar', advanceDays: 1, repeat: 'yearly', notes: '' }); setShowForm(true); }}>+ 新建提醒</button>
         </div>
       </div>
 
-      {/* 统计看板 */}
       <div className="grid grid-3 mb-4">
         <div className="card text-center">
           <div className="stat-number" style={{ color: 'var(--color-danger)' }}>{pendingCount}</div>
@@ -171,6 +183,7 @@ export default function ReminderCenter() {
                       </div>
                       {r.notes && <div className="text-sm mt-1">{r.notes}</div>}
                     </div>
+                    <button className="btn btn-sm btn-outline" onClick={() => handleEdit(r)}>编辑</button>
                     {r.status !== 'done' && (
                       <button className="btn btn-sm btn-highlight" onClick={() => handleAction(r, 'done')}>完成</button>
                     )}
@@ -183,7 +196,7 @@ export default function ReminderCenter() {
         </>
       )}
 
-      <Modal open={showForm} title="新建提醒" onClose={() => setShowForm(false)}>
+      <Modal open={showForm} title={editingId ? '编辑提醒' : '新建提醒'} onClose={() => { setShowForm(false); setEditingId(null); }}>
         <div className="flex flex-col gap-3">
           <div className="input-group">
             <label className="input-label">提醒类型</label>
@@ -234,8 +247,8 @@ export default function ReminderCenter() {
             <textarea className="textarea" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} />
           </div>
           <div className="flex gap-2 mt-2">
-            <button className="btn btn-primary flex-1" onClick={handleSave}>创建提醒</button>
-            <button className="btn btn-outline" onClick={() => setShowForm(false)}>取消</button>
+            <button className="btn btn-primary flex-1" onClick={handleSave}>{editingId ? '保存修改' : '创建提醒'}</button>
+            <button className="btn btn-outline" onClick={() => { setShowForm(false); setEditingId(null); }}>取消</button>
           </div>
         </div>
       </Modal>
