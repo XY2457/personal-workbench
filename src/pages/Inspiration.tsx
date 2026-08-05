@@ -10,7 +10,6 @@ const CATEGORIES = {
   quote: { label: '经典名句', icon: '💬', color: '#7DBF8A' },
   movie: { label: '电影推荐', icon: '🎬', color: '#64B5F6' },
   knowledge: { label: '知识解读', icon: '🔬', color: '#D4A03A' },
-  finance: { label: '理财串珠', icon: '💰', color: '#E57373' },
   excerpt: { label: '好词好句摘抄', icon: '✏️', color: '#F48FB1' },
 }
 
@@ -96,7 +95,6 @@ export default function InspirationPage() {
 
       {tab === 'excerpt' ? (
         <div>
-          {/* 摘抄筛选与搜索 */}
           <div className="flex gap-2 mb-3 flex-wrap">
             <select className="select" style={{ width: 'auto' }} value={excerptFilter} onChange={e => setExcerptFilter(e.target.value)}>
               <option value="all">全部分类</option>
@@ -167,35 +165,16 @@ export default function InspirationPage() {
         </div>
       )}
 
-      {/* 添加内容 */}
       <Modal open={showAdd} title={`添加${CATEGORIES[tab].label}`} onClose={() => setShowAdd(false)}>
         <div className="flex flex-col gap-3">
-          <div className="input-group">
-            <label className="input-label">标题</label>
-            <input className="input" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
-          </div>
-          <div className="input-group">
-            <label className="input-label">正文</label>
-            <textarea className="textarea" style={{ minHeight: 120 }} value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} />
-          </div>
+          <div className="input-group"><label className="input-label">标题</label><input className="input" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} /></div>
+          <div className="input-group"><label className="input-label">正文</label><textarea className="textarea" style={{ minHeight: 120 }} value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} /></div>
           <div className="grid grid-2">
-            <div className="input-group">
-              <label className="input-label">来源</label>
-              <input className="input" value={form.source} onChange={e => setForm({ ...form, source: e.target.value })} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">配图URL</label>
-              <input className="input" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} placeholder="自动抓取或手动输入" />
-            </div>
+            <div className="input-group"><label className="input-label">来源</label><input className="input" value={form.source} onChange={e => setForm({ ...form, source: e.target.value })} /></div>
+            <div className="input-group"><label className="input-label">配图URL</label><input className="input" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} placeholder="自动抓取或手动输入" /></div>
           </div>
-          <div className="input-group">
-            <label className="input-label">原文链接</label>
-            <input className="input" value={form.sourceUrl} onChange={e => setForm({ ...form, sourceUrl: e.target.value })} placeholder="https://..." />
-          </div>
-          <div className="input-group">
-            <label className="input-label">标签 (逗号分隔)</label>
-            <input className="input" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="如: 成长, 思维" />
-          </div>
+          <div className="input-group"><label className="input-label">原文链接</label><input className="input" value={form.sourceUrl} onChange={e => setForm({ ...form, sourceUrl: e.target.value })} placeholder="https://..." /></div>
+          <div className="input-group"><label className="input-label">标签 (逗号分隔)</label><input className="input" value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} placeholder="如: 成长, 思维" /></div>
           <div className="flex gap-2 mt-2">
             <button className="btn btn-primary flex-1" onClick={handleAdd}>添加</button>
             <button className="btn btn-outline" onClick={() => setShowAdd(false)}>取消</button>
@@ -203,20 +182,12 @@ export default function InspirationPage() {
         </div>
       </Modal>
 
-      {/* 添加摘抄 */}
       <Modal open={showExcerptForm} title="添加摘抄" onClose={() => setShowExcerptForm(false)}>
         <div className="flex flex-col gap-3">
-          <div className="input-group">
-            <label className="input-label">内容</label>
-            <textarea className="textarea" style={{ minHeight: 100 }} value={excerptForm.text} onChange={e => setExcerptForm({ ...excerptForm, text: e.target.value })} />
-          </div>
+          <div className="input-group"><label className="input-label">内容</label><textarea className="textarea" style={{ minHeight: 100 }} value={excerptForm.text} onChange={e => setExcerptForm({ ...excerptForm, text: e.target.value })} /></div>
           <div className="grid grid-2">
-            <div className="input-group">
-              <label className="input-label">出处/作者</label>
-              <input className="input" value={excerptForm.author} onChange={e => setExcerptForm({ ...excerptForm, author: e.target.value })} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">分类</label>
+            <div className="input-group"><label className="input-label">出处/作者</label><input className="input" value={excerptForm.author} onChange={e => setExcerptForm({ ...excerptForm, author: e.target.value })} /></div>
+            <div className="input-group"><label className="input-label">分类</label>
               <select className="select" value={excerptForm.category} onChange={e => setExcerptForm({ ...excerptForm, category: e.target.value as any })}>
                 {Object.entries(EXCERPT_CATEGORIES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
