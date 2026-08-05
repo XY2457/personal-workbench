@@ -216,6 +216,7 @@ html, body {
 
 /* ===== 页面标题 ===== */
 .page-header {
+  padding-top: max(4px, calc(var(--safe-area-top) - 16px));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -470,6 +471,8 @@ html, body {
 
 /* ===== 模态框 ===== */
 .modal-overlay {
+  padding: 20px;
+  padding-bottom: calc(20px + var(--safe-area-bottom));
   position: fixed;
   inset: 0;
   background: rgba(26, 60, 42, 0.5);
@@ -630,6 +633,9 @@ html, body {
 
 /* ===== Tab 切换 ===== */
 .tab-bar {
+   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   display: flex;
   gap: 4px;
   background: rgba(90, 122, 74, 0.08);
@@ -690,7 +696,12 @@ html, body {
   }
 
   .content-inner {
+   .content-inner {
     padding: 12px;
+    padding-top: calc(12px + var(--safe-area-top));
+    padding-bottom: calc(12px + var(--safe-area-bottom));
+}
+
   }
 
   .page-title {
