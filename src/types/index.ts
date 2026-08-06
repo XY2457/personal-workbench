@@ -1,6 +1,7 @@
 // ===== 通用类型 =====
 export type PageId =
   | 'today'
+  | 'dailyplan'
   | 'customers'
   | 'reminders'
   | 'inspiration'
@@ -15,6 +16,16 @@ export interface Todo {
   date: string;
   time: string;
   done: boolean;
+  created_at: string;
+}
+
+export interface DailyPlan {
+  id: string;
+  content: string;
+  time: string;
+  done: boolean;
+  priority: 'high' | 'medium' | 'low';
+  date: string;
   created_at: string;
 }
 
