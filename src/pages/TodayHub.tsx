@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { dbGet, dbInsert, dbUpdate, dbDelete, uuid, now, todayStr } from '../lib/db'
 import type { Todo, PageId } from '../types'
 import Modal from '../components/Modal'
-import { PixelTodayIcon, PixelLeaf } from '../components/PixelIcon'
+import { PixelTodayIcon } from '../components/PixelIcon'
 
 interface Props {
   onNavigate: (page: PageId) => void
@@ -14,7 +14,6 @@ export default function TodayHub({ onNavigate }: Props) {
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null)
   const [formData, setFormData] = useState({ content: '', date: todayStr(), time: '09:00' })
   const [todayExpense, setTodayExpense] = useState(0)
-  const [accounts, setAccounts] = useState({ daily: 0, fixed: 0, income: 0 })
   const [customers, setCustomers] = useState<any[]>([])
 
   const loadData = async () => {
@@ -25,16 +24,6 @@ export default function TodayHub({ onNavigate }: Props) {
     const expenses = await dbGet<any[]>('expenses') as any[]
     const todayExp = expenses.filter(e => e.date === today && e.type === 'variable')
     setTodayExpense(todayExp.reduce((s, e) => s + Number(e.amount), 0))
-
-    const dailyTotal = expenses.filter(e => e.type === 'variable' && e.date.startsWith(today.slice(0, 7)))
-      .reduce((s, e) => s + Number(e.amount), 0)
-    const daysInMonth = new Date().getDate()
-    const monthlyLimit = daysInMonth * 50
-    setAccounts({
-      daily: Math.max(0, monthlyLimit - dailyTotal),
-      fixed: expenses.filter(e => e.type === 'fixed').reduce((s, e) => s + Number(e.amount), 0),
-      income: expenses.filter(e => e.type === 'income').reduce((s, e) => s + Number(e.amount), 0)
-    })
 
     const custs = await dbGet<any[]>('customers') as any[]
     setCustomers(custs.slice(0, 5))
@@ -80,9 +69,6 @@ export default function TodayHub({ onNavigate }: Props) {
   }
 
   const now_ = new Date()
-  const daysInMonth = new Date(now_.getFullYear(), now_.getMonth() + 1, 0).getDate()
-  const currentDay = now_.getDate()
-  const monthlyLimit = currentDay * 50
 
   return (
     <div>
@@ -98,27 +84,7 @@ export default function TodayHub({ onNavigate }: Props) {
         </button>
       </div>
 
-      {/* 五账户速览 */}
-      <div className="grid grid-3 mb-4">
-        <div className="card">
-          <div className="card-title"><PixelLeaf size={16} /> 日常账户</div>
-          <div className="stat-number" style={{ color: 'var(--color-moss)' }}>¥{accounts.daily.toFixed(0)}</div>
-          <div className="stat-label">本月额度 ¥{monthlyLimit} (日×50)</div>
-        </div>
-        <div className="card">
-          <div className="card-title">固定支出</div>
-          <div className="stat-number" style={{ color: 'var(--color-warning)' }}>¥{accounts.fixed.toFixed(0)}</div>
-          <div className="stat-label">本月已扣固定支出</div>
-        </div>
-        <div className="card">
-          <div className="card-title">收入</div>
-          <div className="stat-number" style={{ color: 'var(--color-success)' }}>¥{accounts.income.toFixed(0)}</div>
-          <div className="stat-label">本月总收入</div>
-        </div>
-      </div>
-
       <div className="grid grid-2">
-        {/* 待办列表 */}
         <div className="card">
           <div className="card-title">
             <PixelTodayIcon size={20} /> 今日待办
@@ -126,7 +92,7 @@ export default function TodayHub({ onNavigate }: Props) {
           </div>
           {todos.length === 0 ? (
             <div className="empty-state">
-              <PixelLeaf size={48} />
+              <PixelTodayIcon size={48} />
               <p className="empty-state-text">今天还没有待办，添加一个吧!</p>
             </div>
           ) : (
@@ -161,9 +127,7 @@ export default function TodayHub({ onNavigate }: Props) {
           )}
         </div>
 
-        {/* 右侧信息 */}
         <div className="flex flex-col gap-4">
-          {/* 今日开销 */}
           <div className="card">
             <div className="card-title">今日开销速览</div>
             <div className="flex items-center justify-between">
@@ -175,7 +139,6 @@ export default function TodayHub({ onNavigate }: Props) {
             </div>
           </div>
 
-          {/* 客户一览 */}
           <div className="card">
             <div className="card-title">
               客户情况一览
@@ -199,7 +162,6 @@ export default function TodayHub({ onNavigate }: Props) {
         </div>
       </div>
 
-      {/* 添加/编辑待办模态框 */}
       <Modal open={showAdd || !!editingTodo} title={editingTodo ? '编辑待办' : '添加待办'} onClose={() => { setShowAdd(false); setEditingTodo(null) }}>
         <div className="flex flex-col gap-3">
           <div className="input-group">
