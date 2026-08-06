@@ -15,6 +15,7 @@ import { exportJSON, exportCSV } from './lib/export'
 import { requestNotificationPermission, subscribePush } from './lib/push'
 import { isSupabaseConfigured } from './lib/supabase'
 import Modal from './components/Modal'
+import DailyPlan from './pages/DailyPlan'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('today')
@@ -65,6 +66,8 @@ export default function App() {
       case 'capsule': return <TimeCapsule />
       case 'wealth': return <WealthWorkshop />
       default: return <TodayHub onNavigate={setCurrentPage} />
+      case 'dailyplan': return <DailyPlan />
+
     }
   }
 
