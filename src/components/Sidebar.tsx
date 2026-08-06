@@ -14,13 +14,9 @@ interface SidebarProps {
 
 const NAV_ITEMS: { id: PageId; label: string }[] = [
   { id: 'today', label: '今日中枢' },
+  { id: 'dailyplan', label: '每日计划' },
   { id: 'customers', label: '客户跟踪' },
-  { id: 'reminders', label: '智能提醒中心' },
-  { id: 'inspiration', label: '灵感补给' },
-  { id: 'notes', label: '每日随手记&反思' },
-  { id: 'words', label: '单词学习' },
-  { id: 'capsule', label: '时光胶囊' },
-  { id: 'wealth', label: '财富工坊' },
+  ...
 ]
 
 export default function Sidebar({
