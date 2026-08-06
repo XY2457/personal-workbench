@@ -210,6 +210,21 @@ export function PixelApple({ size = 16, color = '#E57373' }: IconProps) {
   return <span dangerouslySetInnerHTML={{ __html: svg }} />
 }
 
+// 每日计划 - 像素日历清单
+export function PixelDailyPlanIcon({ size = 24, color = '#7DBF8A' }: IconProps) {
+  const c = color, d = '#1A3C2A', r = '#E57373', b = '#64B5F6'
+  const svg = `
+    <svg viewBox="0 0 32 32" width="${size}" height="${size}" class="pixelated" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      ${px(4,2,8,1,c)}${px(3,3,1,10,c)}${px(12,3,1,10,c)}${px(4,13,8,1,c)}
+      ${px(4,3,8,10,'#FFFEF7')}
+      ${px(5,2,1,1,r)}${px(9,2,1,1,r)}
+      ${px(5,5,5,1,d)}${px(5,6,4,1,d)}${px(5,7,3,1,d)}
+      ${px(10,5,1,1,b)}${px(9,6,1,2,b)}
+      ${px(5,10,3,1,c)}${px(6,11,1,1,c)}
+    </svg>
+  `
+  return <span dangerouslySetInnerHTML={{ __html: svg }} />
+}
 // 图标映射
 export const ICONS = {
   today: PixelTodayIcon,
