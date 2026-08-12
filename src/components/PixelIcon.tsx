@@ -225,9 +225,28 @@ export function PixelDailyPlanIcon({ size = 24, color = '#7DBF8A' }: IconProps) 
   `
   return <span dangerouslySetInnerHTML={{ __html: svg }} />
 }
+// 每日待办 - 像素勾选清单
+export function PixelDailyTodoIcon({ size = 24, color = '#7DBF8A' }: IconProps) {
+  const c = color, d = '#1A3C2A', g = '#81C784', b = '#64B5F6', r = '#E57373'
+  const svg = `
+    <svg viewBox="0 0 32 32" width="${size}" height="${size}" class="pixelated" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      ${px(4,2,8,1,c)}${px(3,3,1,12,c)}${px(12,3,1,12,c)}${px(4,14,8,1,c)}
+      ${px(4,3,8,11,'#FFFEF7')}
+      ${px(5,5,1,1,g)}${px(6,5,1,1,g)}${px(5,6,2,1,g)}
+      ${px(5,8,6,1,d)}
+      ${px(5,10,1,1,r)}${px(6,10,1,1,r)}
+      ${px(8,10,1,1,b)}${px(9,10,1,1,b)}
+      ${px(5,12,4,1,d)}
+      ${px(5,2,1,1,c)}${px(9,2,1,1,c)}
+    </svg>
+  `
+  return <span dangerouslySetInnerHTML={{ __html: svg }} />
+}
 // 图标映射
 export const ICONS = {
   today: PixelTodayIcon,
+  dailyplan: PixelDailyPlanIcon,
+  dailytodo: PixelDailyTodoIcon, 
   customers: PixelCustomerIcon,
   reminders: PixelReminderIcon,
   inspiration: PixelInspirationIcon,
