@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import LoadingScreen from './components/LoadingScreen'
 import TodayHub from './pages/TodayHub'
+import DailyPlan from './pages/DailyPlan'
+import DailyTodo from './pages/DailyTodo'
 import CustomerTracking from './pages/CustomerTracking'
 import ReminderCenter from './pages/ReminderCenter'
 import Inspiration from './pages/Inspiration'
@@ -15,8 +17,6 @@ import { exportJSON, exportCSV, exportAllTXT, exportAllWord } from './lib/export
 import { requestNotificationPermission, subscribePush } from './lib/push'
 import { isSupabaseConfigured } from './lib/supabase'
 import Modal from './components/Modal'
-import DailyPlan from './pages/DailyPlan'
-import DailyTodo from './pages/DailyTodo'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('today')
@@ -59,6 +59,8 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'today': return <TodayHub onNavigate={setCurrentPage} />
+      case 'dailyplan': return <DailyPlan />
+      case 'dailytodo': return <DailyTodo />
       case 'customers': return <CustomerTracking />
       case 'reminders': return <ReminderCenter />
       case 'inspiration': return <Inspiration />
@@ -67,10 +69,6 @@ export default function App() {
       case 'capsule': return <TimeCapsule />
       case 'wealth': return <WealthWorkshop />
       default: return <TodayHub onNavigate={setCurrentPage} />
-      case 'dailyplan': return <DailyPlan />
-      case 'dailytodo': return <DailyTodo />   
-      case 'customers': return <CustomerTracking />
-
     }
   }
 
@@ -89,7 +87,7 @@ export default function App() {
     }
   }
 
-    const handleExport = async (format: 'json' | 'csv' | 'txt' | 'word') => {
+  const handleExport = async (format: 'json' | 'csv' | 'txt' | 'word') => {
     setExporting(format)
     try {
       if (format === 'json') await exportJSON()
@@ -165,7 +163,7 @@ export default function App() {
             </div>
           </div>
 
-                   <div>
+          <div>
             <div className="text-bold mb-2 text-primary">数据导出</div>
             <div className="card" style={{ padding: 12 }}>
               <div className="text-sm text-light mb-2">导出全部数据（JSON/CSV 适合备份，TXT/Word 适合阅读打印）</div>
