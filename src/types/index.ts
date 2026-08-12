@@ -2,6 +2,7 @@
 export type PageId =
   | 'today'
   | 'dailyplan'
+   'dailytodo' 
   | 'customers'
   | 'reminders'
   | 'inspiration'
@@ -20,6 +21,27 @@ export interface Todo {
 }
 
 export interface DailyPlan {
+  export interface SubTask {
+  id: string;
+  content: string;
+  done: boolean;
+}
+
+export interface DailyTodo {
+  id: string;
+  title: string;
+  category: 'work' | 'study' | 'life' | 'other';
+  priority: 'high' | 'medium' | 'low';
+  status: 'todo' | 'doing' | 'done';
+  date: string;
+  startTime: string;
+  endTime: string;
+  repeat: 'none' | 'daily' | 'weekly' | 'monthly';
+  notes: string;
+  subTasks: SubTask[];
+  created_at: string;
+  updated_at: string;
+}
   id: string;
   content: string;
   time: string;
