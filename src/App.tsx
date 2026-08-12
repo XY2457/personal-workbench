@@ -34,14 +34,12 @@ export default function App() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // 每分钟检查一次提醒
   useEffect(() => {
     checkReminders()
     const interval = setInterval(checkReminders, 60000)
     return () => clearInterval(interval)
   }, [])
 
-  // 每月1日备份提醒
   useEffect(() => {
     const today = new Date()
     if (today.getDate() === 1) {
@@ -198,3 +196,4 @@ export default function App() {
     </>
   )
 }
+Fix App.tsx syntax errors and add TXT/Word export
