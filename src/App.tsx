@@ -11,7 +11,7 @@ import TimeCapsule from './pages/TimeCapsule'
 import WealthWorkshop from './pages/WealthWorkshop'
 import type { PageId } from './types'
 import { checkReminders } from './lib/push'
-import { exportJSON, exportCSV } from './lib/export'
+import { exportJSON, exportCSV, exportAllTXT, exportAllWord } from './lib/export'
 import { requestNotificationPermission, subscribePush } from './lib/push'
 import { isSupabaseConfigured } from './lib/supabase'
 import Modal from './components/Modal'
@@ -25,7 +25,7 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [pushEnabled, setPushEnabled] = useState(false)
-  const [exporting, setExporting] = useState(false)
+  const [exporting, setExporting] = useState<string | null>(null)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -89,15 +89,17 @@ export default function App() {
     }
   }
 
-  const handleExport = async (format: 'json' | 'csv') => {
-    setExporting(true)
+    const handleExport = async (format: 'json' | 'csv' | 'txt' | 'word') => {
+    setExporting(format)
     try {
       if (format === 'json') await exportJSON()
-      else await exportCSV()
+      else if (format === 'csv') await exportCSV()
+      else if (format === 'txt') await exportAllTXT()
+      else await exportAllWord()
     } catch (e) {
       alert('导出失败: ' + e)
     }
-    setExporting(false)
+    setExporting(null)
   }
 
   return (
@@ -163,16 +165,24 @@ export default function App() {
             </div>
           </div>
 
-          <div>
+                   <div>
             <div className="text-bold mb-2 text-primary">数据导出</div>
             <div className="card" style={{ padding: 12 }}>
-              <div className="text-sm text-light mb-2">导出全部数据备份</div>
-              <div className="flex gap-2">
-                <button className="btn btn-primary flex-1" disabled={exporting} onClick={() => handleExport('json')}>
-                  {exporting ? '导出中...' : '导出 JSON'}
+              <div className="text-sm text-light mb-2">导出全部数据（JSON/CSV 适合备份，TXT/Word 适合阅读打印）</div>
+              <div className="flex gap-2 mb-2">
+                <button className="btn btn-primary flex-1" disabled={exporting !== null} onClick={() => handleExport('json')}>
+                  {exporting === 'json' ? '导出中...' : 'JSON 备份'}
                 </button>
-                <button className="btn btn-outline flex-1" disabled={exporting} onClick={() => handleExport('csv')}>
-                  导出 CSV
+                <button className="btn btn-outline flex-1" disabled={exporting !== null} onClick={() => handleExport('csv')}>
+                  {exporting === 'csv' ? '导出中...' : 'CSV 表格'}
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <button className="btn btn-outline flex-1" disabled={exporting !== null} onClick={() => handleExport('txt')}>
+                  {exporting === 'txt' ? '导出中...' : 'TXT 文本'}
+                </button>
+                <button className="btn btn-outline flex-1" disabled={exporting !== null} onClick={() => handleExport('word')}>
+                  {exporting === 'word' ? '导出中...' : 'Word 文档'}
                 </button>
               </div>
             </div>
