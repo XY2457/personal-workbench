@@ -2,7 +2,7 @@
 export type PageId =
   | 'today'
   | 'dailyplan'
-   'dailytodo' 
+  | 'dailytodo'
   | 'customers'
   | 'reminders'
   | 'inspiration'
@@ -11,17 +11,7 @@ export type PageId =
   | 'capsule'
   | 'wealth';
 
-export interface Todo {
-  id: string;
-  content: string;
-  date: string;
-  time: string;
-  done: boolean;
-  created_at: string;
-}
-
-export interface DailyPlan {
-  export interface SubTask {
+export interface SubTask {
   id: string;
   content: string;
   done: boolean;
@@ -42,6 +32,17 @@ export interface DailyTodo {
   created_at: string;
   updated_at: string;
 }
+
+export interface Todo {
+  id: string;
+  content: string;
+  date: string;
+  time: string;
+  done: boolean;
+  created_at: string;
+}
+
+export interface DailyPlan {
   id: string;
   content: string;
   time: string;
