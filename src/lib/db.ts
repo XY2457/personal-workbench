@@ -99,6 +99,12 @@ export async function uploadFile(file: File | Blob, path: string): Promise<strin
 // ===== 导出全部数据 =====
 export async function exportAllData(): Promise<Record<string, any[]>> {
   const tables = [
+      const tables = [
+    'todos', 'dailyplans', 'daily_todos', 'customers', 'reminders', 'inspirations', 'excerpts',
+    'daily_notes', 'words', 'growth_metrics', 'milestones', 'growth_diaries',
+    'memos', 'expenses', 'fixed_expenses', 'shopping_items', 'wish_items', 'accounts'
+  ]
+
     'todos', 'customers', 'reminders', 'inspirations', 'excerpts',
     'daily_notes', 'words', 'growth_metrics', 'milestones', 'growth_diaries',
     'memos', 'expenses', 'fixed_expenses', 'shopping_items', 'wish_items', 'accounts'
