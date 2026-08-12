@@ -229,3 +229,4 @@ export interface FiveAccounts {
   wish: { balance: number };
   gold: { balance: number };
 }
+Fix types/index.ts syntax errors
