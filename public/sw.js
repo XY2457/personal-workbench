@@ -1,5 +1,5 @@
 // Service Worker - 像素森系工作台 v2
-const CACHE_NAME = 'workbench-v4'
+const CACHE_NAME = 'workbench-v5'
 
 // 安装 - 跳过预缓存，避免首次缓存陈旧文件
 self.addEventListener('install', () => {
