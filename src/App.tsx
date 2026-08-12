@@ -16,6 +16,7 @@ import { requestNotificationPermission, subscribePush } from './lib/push'
 import { isSupabaseConfigured } from './lib/supabase'
 import Modal from './components/Modal'
 import DailyPlan from './pages/DailyPlan'
+import DailyTodo from './pages/DailyTodo'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('today')
@@ -67,6 +68,8 @@ export default function App() {
       case 'wealth': return <WealthWorkshop />
       default: return <TodayHub onNavigate={setCurrentPage} />
       case 'dailyplan': return <DailyPlan />
+      case 'dailytodo': return <DailyTodo />   
+      case 'customers': return <CustomerTracking />
 
     }
   }
