@@ -196,4 +196,3 @@ export default function App() {
     </>
   )
 }
-Fix App.tsx syntax errors and add TXT/Word export
