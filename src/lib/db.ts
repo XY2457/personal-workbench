@@ -103,6 +103,17 @@ export async function exportAllData(): Promise<Record<string, any[]>> {
     'daily_notes', 'words', 'growth_metrics', 'milestones', 'growth_diaries',
     'memos', 'expenses', 'fixed_expenses', 'shopping_items', 'wish_items', 'accounts'
   ]
+  const result: Record<string, any[]> = {}
+  for (const table of tables) {
+    try {
+      const data = await dbGet<any[]>(table)
+      result[table] = data as any[]
+    } catch {
+      result[table] = []
+    }
+  }
+  return result
+}
 
 // ===== 生成 UUID =====
 export function uuid(): string {
