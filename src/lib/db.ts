@@ -122,6 +122,4 @@ export function now(): string {
   return new Date().toISOString()
 }
 
-export function todayStr(): string {
-  return new Date().toISOString().split('T')[0]
-}
+export function todayStr()
